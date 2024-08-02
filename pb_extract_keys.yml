@@ -8,9 +8,10 @@
 
   tasks:
 
-  - name: Extract private key
-    ansible.builtin.shell: echo {{ ssh_key }} > id_rsa
-
-  - name: Extract public key
-    ansible.builtin.shell: echo {{ ssh_pubkey }} > id_rsa.pub
+  - name: Extract keys
+    ansible.builtin.shell: |
+      echo "{{ ssh_key }}" > id_rsa
+      echo "{{ ssh_pubkey }}" > id_rsa.pub
+      chmod 400 id_rsa*
+      exit 0
 
