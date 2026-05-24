@@ -1,0 +1,19 @@
+---
+- name: Extract private and public RSA keys and save them to id_rsa and id_rsa.pub respectively
+  hosts: localhost
+  gather_facts: no
+  vars:
+  vars_files:
+  - secrets.yml
+
+  tasks:
+
+  - name: Extract keys
+    ansible.builtin.shell: |
+      [[ ! -e ~/.ssh ]] && mkdir ~/.ssh && chmod 700 ~/.ssh
+      [[ ! -e ~/.ssh/id_rsa.pub ]] && echo "{{ ssh_key }}" > ~/.ssh/id_rsa
+      [[ ! -e ~/.ssh/id_rsa.pub ]] && echo "{{ ssh_pubkey }}" > ~/.ssh/id_rsa.pub
+      cd ~/.ssh
+      chmod 400 id_rsa*
+      exit 0
+
